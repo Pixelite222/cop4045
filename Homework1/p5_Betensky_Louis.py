@@ -1,7 +1,9 @@
 def caesar_cipher(text, shift):
     encrypted = ""
 
-    for char in text:
+    for i in range(len(text)):
+        char = text[i]
+
         if char.isalpha():
             if char.isupper():
                 encrypted += chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
@@ -12,11 +14,12 @@ def caesar_cipher(text, shift):
 
     return encrypted
 
-
 def caesar_decipher(ciphertext, shift):
     decrypted = ""
 
-    for char in ciphertext:
+    for i in range(len(ciphertext)):
+        char = ciphertext[i]
+
         if char.isalpha():
             if char.isupper():
                 decrypted += chr((ord(char) - ord('A') - shift) % 26 + ord('A'))
@@ -27,11 +30,12 @@ def caesar_decipher(ciphertext, shift):
 
     return decrypted
 
-
 def letter_frequency(text):
     frequency = {}
 
-    for char in text.lower():
+    for i in range(len(text)):
+        char = text[i].lower()
+
         if char.isalpha():
             if char in frequency:
                 frequency[char] += 1
@@ -40,57 +44,55 @@ def letter_frequency(text):
 
     return frequency
 
-
 def main():
     message = ""
+    shift = 0
 
     while True:
         print("\n--- Caesar Cipher Menu ---")
-        print("1. Enter a message")
-        print("2. Encrypt message")
-        print("3. Decrypt message")
-        print("4. Count letters")
-        print("5. Exit")
+        print("1. Enter message")
+        print("2. Enter shift value")
+        print("3. View ciphered message")
+        print("4. View letter frequency")
+        print("5. View deciphered message")
+        print("6. Exit")
 
-        choice = input("Choose an option: ")
+        choice = input("Enter your choice: ")
 
         if choice == "1":
             message = input("Enter your message: ")
-            print("Message saved.")
 
         elif choice == "2":
-            if message == "":
-                print("Please enter a message first.")
-            else:
+            try:
                 shift = int(input("Enter the shift value: "))
-                message = caesar_cipher(message, shift)
-                print("Encrypted message:", message)
+            except ValueError:
+                print("Invalid shift value. Please enter a number.")
 
         elif choice == "3":
             if message == "":
                 print("Please enter a message first.")
             else:
-                shift = int(input("Enter the shift value: "))
-                message = caesar_decipher(message, shift)
-                print("Decrypted message:", message)
+                print("Ciphered message:", caesar_cipher(message, shift))
 
         elif choice == "4":
             if message == "":
                 print("Please enter a message first.")
             else:
-                frequency = letter_frequency(message)
-
-                print("Letter frequency:")
-                for letter in sorted(frequency):
-                    print(letter + ":", frequency[letter])
+                print("Letter frequency:", letter_frequency(message))
 
         elif choice == "5":
+            if message == "":
+                print("Please enter a message first.")
+            else:
+                ciphered_message = caesar_cipher(message, shift)
+                print("Deciphered message:", caesar_decipher(ciphered_message, shift))
+
+        elif choice == "6":
             print("Goodbye!")
             break
 
         else:
-            print("Invalid choice. Please select an option from 1-5.")
-
-
+            print("Invalid choice. Please try again.")
+            
 if __name__ == "__main__":
     main()
