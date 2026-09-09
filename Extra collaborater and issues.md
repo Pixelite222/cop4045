@@ -3,6 +3,7 @@ Because i already have a github account on a different email linked to my PC (pi
 Just for clarity:
 
 my school account is Pixelite222
+
 my non-school account that I invited is Pixelite22
 
 I also can't seem to limit or expand permissions to read only as asked
