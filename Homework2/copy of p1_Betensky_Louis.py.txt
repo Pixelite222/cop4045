@@ -1,0 +1,121 @@
+1. def line_number(read_file : str, write_file : str) -> None:
+2.     '''
+3.     Opens and reads a file, then writes to a different one, a copy of the first, but numbering the lines each line is written on
+4.     Throws raised exceptions for FileNotFoundErrors when trying to read, and type errors when the files don't have strings passed in their place
+5.     '''
+6.     try:
+7.         main_file = open(read_file, "r") 
+8.         target = open(write_file, "w")
+9.     
+10.         i = 1
+11.         for line in  main_file:
+12.             numbered_line = str(i) + '. '
+13.             numbered_line += line
+14.             print(numbered_line, file = target, end="")
+15.             i += 1
+16. 
+17.         main_file.close()
+18.         target.close()
+19. 
+20.     except FileNotFoundError:
+21.         print("Error!!! File: ", read_file, "doesn't exist or wasn't found.")
+22.         raise
+23.     except TypeError:
+24.         print("Error!!! One of the two files passed weren't strings, and couldn't be read as a result")
+25.         raise    
+26. 
+27.     print("line_number complete")
+28.     
+29. #0 - line number
+30. #1 - function name
+31. #2 - member variables as a string
+32. #3 - Function's code (Header and body) with empty lines and comments removed
+33. def parse_functions(file : str) -> tuple:
+34.     '''
+35.     Creates a tuple of tupples, which hold the line number a function is on, the functions name, it's member variables, and the entirity of the function.
+36.     It then sorts it in alphabetical order through the use of reordering the tupple into a new list, using sort(), and finally reordering the tupples back to the way wanted in the assignment
+37.     Exceptions are again thrown for FileNotFound and Type Errors like above
+38.     '''
+39.     try:
+40.         found_file = open(file, "r")
+41. 
+42.         func_line = 0
+43.         func_name = ""
+44.         func_var = ""
+45.         func_code = ""
+46.         func_arr = []
+47. 
+48.         i = 1
+49.         func_check = False
+50.         for line in found_file:
+51.             if line.strip().startswith("def "): 
+52.                 if func_line != 0:
+53.                     func_tup = func_line, func_name, func_var, func_code #tuple assigning
+54.                     func_arr.append(func_tup)
+55. 
+56.                 func_line = i
+57.                 func_name = line[line.find('def ') + 4 : line.find('(')]
+58.                 func_var = line[line.find('(') + 1:line.find(')')]
+59.                 func_check = True
+60.                 func_code = line.strip()
+61.             else:
+62.                 if func_check:
+63.                     if line.strip() != "" and not line.strip().startswith("#"): 
+64.                         if not (line.startswith(" ") or line.startswith("\t")):
+65.                             func_check = False
+66.                         else:
+67.                             if "#" in line.strip():
+68.                                 func_code += " " + (line[:line.find("#")]).strip() #added a space between lines to try and make it a bit more readable, hopefully won't mark me off for including it.
+69.                             else:
+70.                                 func_code += " " + line.strip()
+71.                         
+72. 
+73. 
+74. 
+75.             i += 1
+76. 
+77.         func_tup = func_line, func_name, func_var, func_code
+78.         if not func_tup in func_arr:
+79.             func_arr.append(func_tup)
+80. 
+81. 
+82.         found_file.close()
+83. 
+84.         func_list = []
+85.         for func in func_arr:
+86.             func_list.append((func[1], func[0], func[2], func[3]))
+87. 
+88.         func_list.sort()
+89. 
+90.         final_list = []
+91.         for func in func_list:
+92.             final_list.append((func[1], func[0], func[2], func[3]))
+93.         
+94. 
+95.         return tuple(final_list)
+96. 
+97.     except FileNotFoundError:
+98.         print("Error!!! File: ", file, " doesn't exist or isn't found!")
+99.         raise
+100.     except TypeError:
+101.         print("Error!!! File: ", file, " wasn't passed in as a string and can't be read")
+102.         raise
+103. 
+104. 
+105. def main() -> None:
+106.     '''
+107.     Simply calls the functions to test them.  Because of this I haven't added exceptions.
+108.     '''
+109.     line_number("p1_Betensky_Louis.py", "copy of p1_Betensky_Louis.py.txt")
+110.     func_tup = parse_functions("p1_Betensky_Louis.py")
+111. 
+112.     #included for ease of reading, but commenting it out in favor of the one seemingly more in line with the assignment's example
+113.     #for tup in func_tup:
+114.     #    print(tup)
+115.     
+116.     print (func_tup)
+117. 
+118.     print("Louis Betensky")
+119. 
+120. 
+121. main()

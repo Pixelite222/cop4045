@@ -1,0 +1,6 @@
+alice,Alice Smith,maria
+maria,Maria Cortez,alice,joe,david
+joe,Joseph Adams,maria,eve
+eve,Evelyn Cooper,joe,louie
+david,David Benson,maria
+louie,Louis Betensky,eve
